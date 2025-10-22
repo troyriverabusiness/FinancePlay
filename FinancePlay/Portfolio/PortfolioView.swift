@@ -7,9 +7,10 @@
 
 import SwiftUI
 
-private enum PortfolioType {
-    case diversity
-    case historical
+private enum PortfolioType: String, CaseIterable, Identifiable {
+    case diversity = "Portfolio Diversity"
+    case historical = "Historical Value"
+    var id : Self { self }
 }
 
 struct PortfolioView: View {
@@ -20,7 +21,10 @@ struct PortfolioView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                /// TODO: add a selection for whether historical or diversity (preferably as a toolbar)
+                /// TODO: move this into toolbar
+                /// Picker to specify what type of portfolio view
+                PortfolioTypePicker(portfolioType: $portfolioType)
+                
                 
                 /// What Portfolio to Show
                 switch portfolioType {
@@ -41,10 +45,24 @@ struct PortfolioView: View {
                     } label: {
                         Label("Info", systemImage: "info")
                     }
-
+                    
                 }
             }
         }
+    }
+}
+
+private struct PortfolioTypePicker: View {
+    @Binding var portfolioType: PortfolioType
+    
+    var body: some View {
+        Picker("Type", selection: $portfolioType) {
+            ForEach(PortfolioType.allCases) { tab in
+                Text(tab.rawValue).tag(tab)
+            }
+        }
+        .pickerStyle(.segmented)
+        .padding()
     }
 }
 

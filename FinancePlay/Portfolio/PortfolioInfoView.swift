@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// TODO: Fill with detail & info about what a portfolio is & etc...
 struct PortfolioInfoView: View {
     var body: some View {
         Text("learn about portfolio")
