@@ -8,8 +8,20 @@
 import SwiftUI
 
 struct EducationView: View {
+    /// TODO: Change to actual learning topics
+    let topics: [String] = ["Markets", "Portfolio", "Taxes", "Stocks"]
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationStack {
+            ScrollView {
+                /// Learning Progress Section
+                EducationProgressView(topics: topics)
+                
+                /// Topic Section
+                EducationItemsListView(topics: topics)
+            }
+            .navigationTitle("Education")
+        }
     }
 }
 
