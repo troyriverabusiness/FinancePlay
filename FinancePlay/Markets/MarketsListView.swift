@@ -12,7 +12,13 @@ struct MarketsListView: View {
     
     var body: some View {
         ForEach(markets) { market in
-            MarketHeadView(market: market)
+            NavigationLink {
+                MarketDetailView(market: market)
+            } label: {
+                MarketHeadView(market: market)
+            }
+            .contentShape(Rectangle())
+            .buttonStyle(.plain)
         }
     }
 }

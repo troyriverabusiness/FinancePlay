@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+/// Individual Market Header used in Lists
 struct MarketHeadView: View {
     let market: Market
     
@@ -22,7 +23,7 @@ struct MarketHeadView: View {
 }
 
 /// Market Logo / Fallback Image
-private struct MarketLogo: View {
+ struct MarketLogo: View {
     let market: Market
     
     var body: some View {
@@ -31,7 +32,7 @@ private struct MarketLogo: View {
 }
 
 /// Market Name & Ticker
-private struct MarketNameTicker: View {
+ struct MarketNameTicker: View {
     let market: Market
     
     var body: some View {
@@ -43,7 +44,7 @@ private struct MarketNameTicker: View {
 }
 
 /// Latest market price & percent difference from yesterday's date
-private struct MarketPriceStat: View {
+ struct MarketPriceStat: View {
     let market: Market
     
     var body: some View {

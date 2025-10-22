@@ -15,6 +15,8 @@ struct MarketsView: View {
     
     var body: some View {
         NavigationStack {
+            /// TODO: add filtering for Market Type & Search
+            /// Stock, Crypto, ETF, ...
             ScrollView {
                 MarketsListView(markets: markets)
             }
@@ -27,8 +29,9 @@ struct MarketsView: View {
             }
             .navigationTitle("Markets")
             .searchable(text: .constant(""))
+            /// Sheet which presents education content on what markets are etc...
             .sheet(isPresented: $showMarketsInfo) {
-                Text("hello")
+                MarketsInfo()
             }
         }
     }
