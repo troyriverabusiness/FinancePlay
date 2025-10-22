@@ -10,18 +10,21 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         TabView {
+            /// Markets Section
             Tab {
-                Text("hello")
+                MarketsView()
             } label: {
                 Label("Markets", systemImage: "chart.line.uptrend.xyaxis")
             }
+            /// Portfolio Section
             Tab {
-                Text("world")
+                PortfolioView()
             } label: {
                 Label("Portfolio", systemImage: "chart.pie")
             }
+            /// Education Section
             Tab {
-                Text("Hello")
+                EducationView()
             } label: {
                 Label("Education", systemImage: "books.vertical")
             }
