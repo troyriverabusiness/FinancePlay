@@ -8,8 +8,27 @@
 import SwiftUI
 
 struct MarketsView: View {
+    @State private var searchText: String = ""
+    @State private var showMarketsInfo: Bool = false
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationStack {
+            ScrollView {
+                Text("Markets")
+            }
+            .toolbar {
+                ToolbarItem {
+                    Button("Hello", systemImage: "info") {
+                        showMarketsInfo.toggle()
+                    }
+                }
+            }
+            .navigationTitle("Markets")
+            .searchable(text: .constant(""))
+            .sheet(isPresented: $showMarketsInfo) {
+                Text("hello")
+            }
+        }
     }
 }
 
