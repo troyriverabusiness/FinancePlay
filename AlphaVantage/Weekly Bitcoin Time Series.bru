@@ -1,0 +1,22 @@
+meta {
+  name: Weekly Bitcoin Time Series
+  type: http
+  seq: 1
+}
+
+get {
+  url: https://www.alphavantage.co/query?function=DIGITAL_CURRENCY_WEEKLY&symbol=BTC&market=EUR&apikey=demo
+  body: none
+  auth: inherit
+}
+
+params:query {
+  function: DIGITAL_CURRENCY_WEEKLY
+  symbol: BTC
+  market: EUR
+  apikey: demo
+}
+
+settings {
+  encodeUrl: true
+}
