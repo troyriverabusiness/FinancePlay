@@ -12,7 +12,7 @@ struct MarketsListView: View {
     
     var body: some View {
         ForEach(markets) { market in
-            Text(market.name)
+            MarketHeadView(market: market)
         }
     }
 }

@@ -11,10 +11,12 @@ struct MarketsView: View {
     @State private var searchText: String = ""
     @State private var showMarketsInfo: Bool = false
     
+    var markets: [Market] = [Market.amazon, Market.amazon, Market.amazon]
+    
     var body: some View {
         NavigationStack {
             ScrollView {
-                Text("Markets")
+                MarketsListView(markets: markets)
             }
             .toolbar {
                 ToolbarItem {
