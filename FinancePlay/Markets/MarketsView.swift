@@ -7,9 +7,18 @@
 
 import SwiftUI
 
+private enum MarketType: String, CaseIterable, Identifiable {
+    case all = "All"
+    case Stock = "Stock"
+    case Crypto = "Crypto"
+    case ETF = "ETF"
+    var id: Self { self }
+}
+
 struct MarketsView: View {
     @State private var searchText: String = ""
     @State private var showMarketsInfo: Bool = false
+    @State private var selectedMarketType: MarketType = .all
     
     var markets: [Market] = [Market.amazon, Market.amazon, Market.amazon]
     
@@ -18,6 +27,7 @@ struct MarketsView: View {
             /// TODO: add filtering for Market Type & Search
             /// Stock, Crypto, ETF, ...
             ScrollView {
+                MarketTypePicker(marketType: $selectedMarketType)
                 MarketsListView(markets: markets)
             }
             .toolbar {
@@ -34,6 +44,20 @@ struct MarketsView: View {
                 MarketsInfo()
             }
         }
+    }
+}
+
+private struct MarketTypePicker: View {
+    @Binding var marketType: MarketType
+    
+    var body: some View {
+        Picker("Type", selection: $marketType) {
+            ForEach(MarketType.allCases) { tab in
+                Text(tab.rawValue).tag(tab)
+            }
+        }
+        .pickerStyle(.segmented)
+        .padding(.horizontal)
     }
 }
 
