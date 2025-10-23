@@ -7,13 +7,6 @@
 
 import SwiftUI
 
-private enum MarketType: String, CaseIterable, Identifiable {
-    case all = "All"
-    case Stock = "Stock"
-    case Crypto = "Crypto"
-    case ETF = "ETF"
-    var id: Self { self }
-}
 
 struct MarketsView: View {
     @State private var searchText: String = ""
