@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct EducationView: View {
-    /// TODO: Change to actual learning topics
-    let topics: [String] = ["Markets", "Portfolio", "Taxes", "Stocks"]
+    let topics: [EducationTopic] = EducationTopic.topics
     
     var body: some View {
         NavigationStack {

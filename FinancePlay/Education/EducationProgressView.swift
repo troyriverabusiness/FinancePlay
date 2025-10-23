@@ -9,12 +9,12 @@ import SwiftUI
 
 /// List holder
 struct EducationProgressView: View {
-    let topics: [String] 
+    let topics: [EducationTopic]
     
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 16) {
-                ForEach(topics, id: \.count) { topic in
+                ForEach(topics) { topic in
                     EducationTopicCompletionView(topic: topic)
                 }
             }
@@ -31,12 +31,12 @@ struct EducationProgressView: View {
 
 /// Individual profficiency component
 private struct EducationTopicCompletionView: View {
-    let topic: String
+    let topic: EducationTopic
     
     var body: some View {
         VStack {
             AccomplishmentRing(progress: 25)
-            Text(topic)
+            Text(topic.name)
                 .font(.headline)
         }
         .padding()
@@ -85,5 +85,5 @@ private struct AccomplishmentRing: View {
 }
 
 #Preview {
-    EducationProgressView(topics: ["Math", "Science", "History", "Geography"])
+    EducationProgressView(topics: EducationTopic.topics)
 }

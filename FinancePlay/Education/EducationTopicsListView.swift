@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct EducationTopicsListView: View {
-    let topics: [String]
+    let topics: [EducationTopic]
     
     var body: some View {
-        ForEach(topics, id: \.count) { topic in
+        ForEach(topics) { topic in
             NavigationLink {
                 EducationTopicView(topic: topic)
             } label: {
-                EducationListItem(title: topic, description: "Description for this topic", image: "chart.line.uptrend.xyaxis")
+                EducationListItem(topic: topic)
             }
             .buttonStyle(.plain)
         }
@@ -24,19 +24,17 @@ struct EducationTopicsListView: View {
 }
 
 private struct EducationListItem: View {
-    let title: String
-    let description: String
-    let image: String
+    let topic: EducationTopic
     
     var body: some View {
         HStack(spacing: 10) {
-            Image(systemName: image)
+            Image(systemName: "info.circle")
                 .resizable()
                 .frame(width: 30, height: 30)
             VStack(alignment: .leading) {
-                Text(title)
+                Text(topic.name)
                     .font(.headline)
-                Text(description)
+                Text(topic.description)
                     .font(.subheadline)
             }
             Spacer()
@@ -52,5 +50,5 @@ private struct EducationListItem: View {
 }
 
 #Preview {
-    EducationTopicsListView(topics: ["Markets", "Investing", "Saving"])
+    EducationTopicsListView(topics: EducationTopic.topics)
 }

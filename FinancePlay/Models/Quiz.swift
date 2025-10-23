@@ -6,6 +6,13 @@
 //
 
 struct Quiz {
+    var topic: String
+    var description: String
     /// Percentage of achieved score from the questions
     var score: Double
+    /// The questions the quiz has
+    var questions: [QuizQuestion]
+    
+    
+    static let example = Quiz(topic: "Markets", description: "I hate bussies", score: 78.9, questions: QuizQuestion.marketQuestions)
 }

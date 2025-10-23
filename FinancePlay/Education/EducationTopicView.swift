@@ -8,27 +8,42 @@
 import SwiftUI
 
 struct EducationTopicView: View {
-    let topic: String
+    let topic: EducationTopic
     
     var body: some View {
         ScrollView {
-            /// Short Description
-            Text("\(topic)")
-            
-            /// Infographics
-            
-            
-            /// Detailed Explanation with intermediate cutout
-            
-            /// Quiz Button
-            NavigationLink("Hello") {
-                Text("quiz here")
+            VStack(alignment: .leading, spacing: 20) {
+                /// Short Description
+                Text(topic.description)
+                    .font(.headline)
+                
+                /// Infographics
+                
+                
+                /// Detailed Explanation with intermediate cutout
+                ParagraphsView(paragraphs: topic.explanation)
+                
+                /// Quiz Button
+                QuizButton()
+
             }
+            .padding()
         }
-        .navigationTitle(topic)
+        .navigationTitle(topic.name)
+    }
+}
+
+private struct QuizButton: View {
+    var body: some View {
+        NavigationLink {
+            /// TODO: adapt for quiz
+            QuizOverView(quiz: Quiz.example)
+        } label: {
+            Label("Test your Knowledge", systemImage: "graduationcap")
+        }
     }
 }
 
 #Preview {
-    EducationTopicView(topic: "Markets")
+    EducationTopicView(topic: EducationTopic.topics.first!)
 }
