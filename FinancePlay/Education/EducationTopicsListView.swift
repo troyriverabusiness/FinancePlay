@@ -7,13 +7,13 @@
 
 import SwiftUI
 
-struct EducationItemsListView: View {
+struct EducationTopicsListView: View {
     let topics: [String]
     
     var body: some View {
         ForEach(topics, id: \.count) { topic in
             NavigationLink {
-                Text("Sussy continoum")
+                EducationTopicView(topic: topic)
             } label: {
                 EducationListItem(title: topic, description: "Description for this topic", image: "chart.line.uptrend.xyaxis")
             }
@@ -52,5 +52,5 @@ private struct EducationListItem: View {
 }
 
 #Preview {
-    EducationItemsListView(topics: ["Markets", "Investing", "Saving"])
+    EducationTopicsListView(topics: ["Markets", "Investing", "Saving"])
 }

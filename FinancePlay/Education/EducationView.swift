@@ -18,7 +18,7 @@ struct EducationView: View {
                 EducationProgressView(topics: topics)
                 
                 /// Topic Section
-                EducationItemsListView(topics: topics)
+                EducationTopicsListView(topics: topics)
             }
             .navigationTitle("Education")
         }
