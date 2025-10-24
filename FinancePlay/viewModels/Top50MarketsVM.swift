@@ -17,6 +17,14 @@ struct Top50MarketsVM {
     
     let baseURL = "https://www.alphavantage.co/query"
     
+//    let apiKey = Bundle.main.object(forInfoDictionaryKey: "ALPHA_VANTAGE_API_KEY") as? String
+    
+    guard let apiKey = Bundle.main.object(forInfoDictionaryKey: "ALPHA_VANTAGE_API_KEY") as? String else {
+        fatalError("❌ API key missing! Check Info.plist and .xcconfig setup.")
+    }
+
+
+    
     func fetchMarkets() {
         
     }
@@ -33,7 +41,7 @@ struct Top50MarketsVM {
             URLQueryItem(name: "function", value: "TIME_SERIES_INTRADAY"),
             URLQueryItem(name: "symbol", value: ticker),
             URLQueryItem(name: "interval", value: "5min"),
-            URLQueryItem(name: "apikey", value: "demo")
+            URLQueryItem(name: "apikey", value: apiKey)
         ]
         
         guard let url = components.url else {

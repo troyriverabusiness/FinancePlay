@@ -6,8 +6,13 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		057644DC2EABDE05008AB785 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 057644DB2EABDE05008AB785 /* Config.xcconfig */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		0558414E2EA90D4300121420 /* FinancePlay.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FinancePlay.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		057644DB2EABDE05008AB785 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -34,6 +39,7 @@
 			children = (
 				055841502EA90D4300121420 /* FinancePlay */,
 				0558414F2EA90D4300121420 /* Products */,
+				057644DB2EABDE05008AB785 /* Config.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -109,6 +115,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				057644DC2EABDE05008AB785 /* Config.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -127,6 +134,7 @@
 /* Begin XCBuildConfiguration section */
 		055841572EA90D4400121420 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 057644DB2EABDE05008AB785 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -191,6 +199,7 @@
 		};
 		055841582EA90D4400121420 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 057644DB2EABDE05008AB785 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
