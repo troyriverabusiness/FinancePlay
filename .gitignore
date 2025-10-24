@@ -1,0 +1,24 @@
+# Xcode user data
+xcuserdata/
+
+# Build artifacts
+build/
+DerivedData/
+
+# API Keys and Configuration
+Config.xcconfig
+*.xcconfig
+
+# Environment files
+.env
+.env.local
+
+# API Keys and secrets
+*secret*
+*key*
+*password*
+*credential*
+
+# Alpha Vantage API test files (may contain sensitive data)
+AlphaVantage/*.bru
+AlphaVantage/bruno.json
