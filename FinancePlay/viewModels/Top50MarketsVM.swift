@@ -17,11 +17,7 @@ struct Top50MarketsVM {
     
     let baseURL = "https://www.alphavantage.co/query"
     
-//    let apiKey = Bundle.main.object(forInfoDictionaryKey: "ALPHA_VANTAGE_API_KEY") as? String
-    
-    guard let apiKey = Bundle.main.object(forInfoDictionaryKey: "ALPHA_VANTAGE_API_KEY") as? String else {
-        fatalError("❌ API key missing! Check Info.plist and .xcconfig setup.")
-    }
+    let apiKey = Bundle.main.object(forInfoDictionaryKey: "ALPHA_VANTAGE_API_KEY") as? String
 
 
     
