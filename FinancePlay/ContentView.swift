@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct ContentView: View {
-    let test = Top50MarketsVM(markets: [])
-    
     var body: some View {
         TabView {
             /// Markets Section
@@ -30,9 +28,6 @@ struct ContentView: View {
             } label: {
                 Label("Education", systemImage: "books.vertical")
             }
-        }
-        .task {
-            try? await test.fetchBasicMarketInfo(ticker: "AMZN")
         }
     }
 }
