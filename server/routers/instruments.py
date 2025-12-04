@@ -20,7 +20,7 @@ def list_instruments(type: Optional[str] = None) -> InstrumentsGetResponse:
 
     Optionally filter by instrument type (stock, crypto, forex, commodity, index).
     """
-    return service.list_instruments(type)
+    return service.list_instruments(instrument_type=type)
 
 
 @router.get("/{instrument_id}", response_model=InstrumentDetail)

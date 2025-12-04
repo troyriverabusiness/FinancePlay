@@ -5,6 +5,7 @@ This is where you implement database queries, data processing, etc.
 
 from typing import Optional
 
+from data.instruments import INSTRUMENTS, INSTRUMENTS_BY_ID
 from generated.models import (
     InstrumentDetail,
     InstrumentSummary,
@@ -13,30 +14,40 @@ from generated.models import (
 )
 
 
-def list_instruments(type: Optional[str] = None) -> InstrumentsGetResponse:
+def list_instruments(instrument_type: Optional[str] = None) -> InstrumentsGetResponse:
     """
     List all financial instruments, optionally filtered by type.
 
     Args:
-        type: Optional instrument type to filter by (stock, crypto, forex, commodity, index)
+        instrument_type: Optional instrument type to filter by (stock, crypto, forex, commodity, index)
 
     Returns:
         InstrumentsGetResponse with 'data' key containing list of InstrumentSummary objects
     """
-    # TODO: Implement database query to fetch instruments
-    # Example return structure based on your OpenAPI spec:
-    # return InstrumentsGetResponse(
-    #     data=[
-    #         InstrumentSummary(
-    #             id="AAPL",
-    #             symbol="AAPL",
-    #             name="Apple Inc.",
-    #             type=Type.stock,
-    #             exchange="NASDAQ"
-    #         )
-    #     ]
-    # )
-    return InstrumentsGetResponse(data=[])
+    instruments = INSTRUMENTS
+
+    # Filter by type if provided
+    if instrument_type is not None:
+        try:
+            type_enum = Type(instrument_type)
+            instruments = [inst for inst in instruments if inst["type"] == type_enum]
+        except ValueError:
+            # Invalid type provided, return empty list
+            return InstrumentsGetResponse(data=[])
+
+    # Convert to InstrumentSummary objects
+    summaries = [
+        InstrumentSummary(
+            id=inst["id"],
+            symbol=inst["symbol"],
+            name=inst["name"],
+            type=inst["type"],
+            exchange=inst["exchange"],
+        )
+        for inst in instruments
+    ]
+
+    return InstrumentsGetResponse(data=summaries)
 
 
 def get_instrument_by_id(instrument_id: str) -> Optional[InstrumentDetail]:
@@ -52,19 +63,20 @@ def get_instrument_by_id(instrument_id: str) -> Optional[InstrumentDetail]:
     Raises:
         HTTPException(404): If instrument is not found (handled in router)
     """
-    # TODO: Implement database query to fetch instrument details
-    # Return None if not found, HTTPException will be raised in router
-    # Example return:
-    # return InstrumentDetail(
-    #     id="AAPL",
-    #     symbol="AAPL",
-    #     name="Apple Inc.",
-    #     type=Type.stock,
-    #     exchange="NASDAQ",
-    #     currency="USD",
-    #     description="Apple Inc. designs, manufactures, and markets smartphones...",
-    #     sector="Technology",
-    #     marketCap=3000000000000,
-    #     logoUrl="/instruments/AAPL/logo"
-    # )
-    return None
+    inst = INSTRUMENTS_BY_ID.get(instrument_id)
+
+    if inst is None:
+        return None
+
+    return InstrumentDetail(
+        id=inst["id"],
+        symbol=inst["symbol"],
+        name=inst["name"],
+        type=inst["type"],
+        exchange=inst["exchange"],
+        currency=inst["currency"],
+        description=inst["description"],
+        sector=inst["sector"],
+        marketCap=inst["marketCap"],
+        logoUrl=inst["logoUrl"],
+    )

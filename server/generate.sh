@@ -43,7 +43,4 @@ else
     exit 1
 fi
 echo ""
-echo "Next steps:"
-echo "1. Implement business logic in services/"
-echo "2. Implement route handlers in routers/"
-echo "3. Run: docker-compose up (from project root)"
+
