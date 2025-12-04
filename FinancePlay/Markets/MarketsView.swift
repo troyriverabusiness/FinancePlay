@@ -9,13 +9,13 @@ import SwiftUI
 
 
 struct MarketsView: View {
-    @Environment(Top50MarketsVM.self) var marketsVM
+//    @Environment(Top50MarketsVM.self) var marketsVM
     
     @State private var searchText: String = ""
     @State private var showMarketsInfo: Bool = false
     @State private var selectedMarketType: MarketType = .all
     
-//    var markets: [Market] = [Market.amazon, Market.amazon, Market.amazon]
+    var markets: [Market] = [Market.amazon, Market.amazon, Market.amazon]
     
     var body: some View {
         NavigationStack {
@@ -23,7 +23,7 @@ struct MarketsView: View {
             /// Stock, Crypto, ETF, ...
             ScrollView {
                 MarketTypePicker(marketType: $selectedMarketType)
-                MarketsListView(markets: marketsVM.markets)
+                MarketsListView(markets: markets)
             }
             .toolbar {
                 ToolbarItem {
