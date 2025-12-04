@@ -22,3 +22,7 @@ Config.xcconfig
 # Alpha Vantage API test files (may contain sensitive data)
 AlphaVantage/*.bru
 AlphaVantage/bruno.json
+
+
+# Server
+uv.lock
