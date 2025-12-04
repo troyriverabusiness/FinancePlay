@@ -26,3 +26,4 @@ AlphaVantage/bruno.json
 
 # Server
 uv.lock
+.venv/*

@@ -1,0 +1,337 @@
+openapi: 3.0.3
+info:
+  title: FinancePlay API
+  description: Historical timeseries data API for financial instruments
+  version: 0.1.0
+  contact:
+    name: FinancePlay Support
+
+servers:
+  - url: http://localhost:8000
+    description: Local development server
+
+tags:
+  - name: instruments
+    description: Financial instrument operations
+  - name: timeseries
+    description: Historical timeseries data operations
+
+paths:
+  /instruments:
+    get:
+      summary: List all financial instruments
+      description: Returns a list of all available financial instruments
+      operationId: listInstruments
+      parameters:
+        # - name: limit
+        #   in: query
+        #   description: Maximum number of instruments to return
+        #   required: false
+        #   schema:
+        #     type: integer
+        #     minimum: 1
+        #     maximum: 1000
+        #     default: 100
+        - name: type
+          in: query
+          description: Filter by instrument type
+          required: false
+          schema:
+            type: string
+            enum: [stock, crypto, forex, commodity, index]
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              # List of Instrument Summaries
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/InstrumentSummary'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /instruments/{instrumentId}:
+    get:
+      summary: Get instrument details
+      description: Returns detailed information about a specific financial instrument
+      operationId: getInstrumentById
+      parameters:
+        - name: instrumentId
+          in: path
+          description: Unique identifier of the financial instrument
+          required: true
+          schema:
+            type: string
+          example: "AAPL"
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InstrumentDetail'
+        '404':
+          description: Instrument not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /instruments/{instrumentId}/timeseries:
+    get:
+      summary: Get timeseries data
+      description: Returns historical timeseries data for a specific financial instrument
+      operationId: getInstrumentTimeseries
+      parameters:
+        - name: instrumentId
+          in: path
+          description: Unique identifier of the financial instrument
+          required: true
+          schema:
+            type: string
+          example: "AAPL"
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  instrumentId:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/TimeseriesDataPoint'
+        '400':
+          description: Bad request (invalid parameters)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Instrument not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /instruments/{instrumentId}/logo:
+    get:
+      summary: Get instrument logo
+      description: Returns the logo image for a specific financial instrument
+      operationId: getInstrumentLogo
+      parameters:
+        - name: instrumentId
+          in: path
+          description: Unique identifier of the financial instrument
+          required: true
+          schema:
+            type: string
+          example: "AAPL"
+      responses:
+        '200':
+          description: Logo image
+          content:
+            image/png:
+              schema:
+                type: string
+                format: binary
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
+            image/svg+xml:
+              schema:
+                type: string
+                format: binary
+        '404':
+          description: Instrument or logo not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+components:
+  schemas:
+    InstrumentSummary:
+      type: object
+      required:
+        - id
+        - symbol
+        - name
+        - type
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the instrument
+          example: "AAPL"
+        symbol:
+          type: string
+          description: Trading symbol
+          example: "AAPL"
+        name:
+          type: string
+          description: Full name of the instrument
+          example: "Apple Inc."
+        type:
+          type: string
+          description: Type of financial instrument
+          # ENUM
+          enum: [stock, crypto, forex, commodity, index]
+          example: "stock"
+        exchange:
+          type: string
+          description: Exchange where the instrument is traded
+          example: "NASDAQ"
+
+    InstrumentDetail:
+      type: object
+      required:
+        - id
+        - symbol
+        - name
+        - type
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the instrument
+          example: "AAPL"
+        symbol:
+          type: string
+          description: Trading symbol
+          example: "AAPL"
+        name:
+          type: string
+          description: Full name of the instrument
+          example: "Apple Inc."
+        type:
+          type: string
+          description: Type of financial instrument
+          enum: [stock, crypto, forex, commodity, index]
+          example: "stock"
+        exchange:
+          type: string
+          description: Exchange where the instrument is traded
+          example: "NASDAQ"
+        currency:
+          type: string
+          description: Currency in which the instrument is traded
+          example: "USD"
+        description:
+          type: string
+          description: Detailed description of the instrument
+          example: "Apple Inc. designs, manufactures, and markets smartphones, personal computers, tablets, wearables, and accessories worldwide."
+        sector:
+          type: string
+          description: Industry sector
+          example: "Technology"
+        marketCap:
+          type: number
+          format: double
+          description: Market capitalization
+          example: 3000000000000
+        logoUrl:
+          type: string
+          format: uri
+          description: URL to the instrument's logo
+          example: "/instruments/AAPL/logo"
+
+    TimeseriesDataPoint:
+      type: object
+      required:
+        - timestamp
+        - open
+        - high
+        - low
+        - close
+        - volume
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          description: Timestamp of the data point (ISO 8601 format)
+          example: "2024-01-01T00:00:00Z"
+        open:
+          type: number
+          format: double
+          description: Opening price
+          example: 150.25
+        high:
+          type: number
+          format: double
+          description: Highest price during the interval
+          example: 152.75
+        low:
+          type: number
+          format: double
+          description: Lowest price during the interval
+          example: 149.50
+        close:
+          type: number
+          format: double
+          description: Closing price
+          example: 151.80
+        volume:
+          type: integer
+          format: int64
+          description: Trading volume
+          example: 75000000
+        adjustedClose:
+          type: number
+          format: double
+          description: Adjusted closing price (accounting for splits, dividends)
+          example: 151.80
+
+    Error:
+      type: object
+      required:
+        - error
+        - message
+      properties:
+        error:
+          type: string
+          description: Error code or type
+          example: "NOT_FOUND"
+        message:
+          type: string
+          description: Human-readable error message
+          example: "Instrument with ID 'INVALID' not found"
+        details:
+          type: object
+          description: Additional error details
+          additionalProperties: true

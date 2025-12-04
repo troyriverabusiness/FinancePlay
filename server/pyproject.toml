@@ -4,4 +4,7 @@ version = "0.1.0"
 description = "Serve historical timeseries data for common financial instruments"
 readme = "README.md"
 requires-python = ">=3.9"
-dependencies = []
+dependencies = [
+    "fastapi>=0.123.8",
+    "uvicorn[standard]>=0.30.0",
+]
