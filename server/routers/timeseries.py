@@ -58,26 +58,3 @@ def get_instrument_logo(instrument_id: str):
     # TODO: Detect media type based on image format and return appropriate content type
     # For now, returning as binary
     return StreamingResponse(iter([logo_bytes]), media_type="application/octet-stream")
-    return result
-
-
-@router.get("/instruments/{instrument_id}/logo")
-def get_instrument_logo(instrument_id: str):
-    """
-    Get the logo image for a specific financial instrument.
-
-    Args:
-        instrument_id: Unique identifier of the financial instrument (e.g., "AAPL")
-
-    Returns:
-        Image file (PNG, JPEG, or SVG format)
-    """
-    logo_bytes = service.get_instrument_logo(instrument_id)
-    if logo_bytes is None:
-        raise HTTPException(
-            status_code=404, detail=f"Logo not found for instrument '{instrument_id}'"
-        )
-
-    # TODO: Detect media type based on image format and return appropriate content type
-    # For now, returning as binary
-    return StreamingResponse(iter([logo_bytes]), media_type="application/octet-stream")

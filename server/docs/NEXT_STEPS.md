@@ -100,7 +100,7 @@ def get_instrument_logo(instrument_id: str) -> Optional[bytes]:
 Once you implement a service function:
 
 ```bash
-# 1. Start server
+# 1. Start server (from root directory)
 docker-compose up
 
 # 2. Test with curl
@@ -120,8 +120,9 @@ curl http://localhost:8000/instruments
 ## When You Update the API
 
 ```bash
-# 1. Update openapi.yaml
+# 1. Update ../openapi.yaml (in root directory)
 # 2. Run generation script
+cd server
 ./generate.sh
 
 # 3. Models auto-update
@@ -178,7 +179,7 @@ def list_instruments(type: Optional[str] = None) -> InstrumentsGetResponse:
 ## Questions?
 
 If something isn't clear, check:
-1. `openapi.yaml` - API contract
+1. `../openapi.yaml` - API contract (in root directory)
 2. `generated/models.py` - Available Pydantic models
 3. `routers/instruments.py` and `routers/timeseries.py` - How routes work
-4. `IMPLEMENTATION_SUMMARY.md` - Full architecture details
+4. `docs/IMPLEMENTATION_SUMMARY.md` - Full architecture details

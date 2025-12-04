@@ -5,8 +5,8 @@
 
 set -e
 
-echo "Generating FastAPI models from openapi.yaml..."
-fastapi-codegen --input openapi.yaml --output generated --model-file models.py
+echo "Generating FastAPI models from ../openapi.yaml..."
+fastapi-codegen --input ../openapi.yaml --output generated --model-file models.py
 
 echo "✓ Generation complete!"
 echo "Models generated in: generated/models.py"
@@ -14,4 +14,4 @@ echo ""
 echo "Next steps:"
 echo "1. Implement business logic in services/"
 echo "2. Implement route handlers in routers/"
-echo "3. Run: docker-compose up"
+echo "3. Run: cd .. && docker-compose up"

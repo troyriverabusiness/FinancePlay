@@ -2,7 +2,7 @@
 FinancePlay API Server
 
 FastAPI server providing historical timeseries data for financial instruments.
-The API is defined in openapi.yaml and uses a modular architecture:
+The API is defined in ../openapi.yaml and uses a modular architecture:
 - generated/models.py: Pydantic models generated from OpenAPI spec
 - services/: Business logic layer (database queries, processing, etc.)
 - routers/: API route handlers that call the service layer

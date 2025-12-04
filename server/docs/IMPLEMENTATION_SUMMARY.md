@@ -7,23 +7,32 @@ Your FastAPI server has been successfully generated and structured with a clean,
 ### Architecture Overview
 
 ```
-server/
-├── main.py                         # FastAPI application entry point
+project/
 ├── openapi.yaml                    # API specification (source of truth)
-├── generate.sh                     # Generation script (for future updates)
-├── pyproject.toml                  # Dependencies (includes fastapi-code-generator)
-├── generated/
-│   ├── __init__.py
-│   ├── models.py                   # Pydantic models (AUTO-GENERATED from spec)
-│   └── main.py                     # Reference generated app (not used by default)
-├── services/
-│   ├── __init__.py
-│   ├── instruments.py              # Business logic for instruments
-│   └── timeseries.py               # Business logic for timeseries data
-└── routers/
-    ├── __init__.py
-    ├── instruments.py              # HTTP routes for /instruments endpoints
-    └── timeseries.py               # HTTP routes for /timeseries endpoints
+├── docker-compose.yml              # Docker composition (at root level)
+└── server/
+    ├── main.py                     # FastAPI application entry point
+    ├── generate.sh                 # Generation script (for future updates)
+    ├── Dockerfile                  # Docker build file
+    ├── config/
+    │   ├── .python-version         # Python version specification
+    │   └── pyproject.toml          # Dependencies (includes fastapi-code-generator)
+    ├── docs/
+    │   ├── IMPLEMENTATION_SUMMARY.md
+    │   ├── NEXT_STEPS.md
+    │   ├── AGENTS.md
+    │   └── README.md
+    ├── generated/
+    │   ├── __init__.py
+    │   └── models.py               # Pydantic models (AUTO-GENERATED from spec)
+    ├── services/
+    │   ├── __init__.py
+    │   ├── instruments.py          # Business logic for instruments
+    │   └── timeseries.py           # Business logic for timeseries data
+    └── routers/
+        ├── __init__.py
+        ├── instruments.py          # HTTP routes for /instruments endpoints
+        └── timeseries.py           # HTTP routes for /timeseries endpoints
 ```
 
 ### What Was Generated
@@ -116,9 +125,10 @@ The route handlers are already implemented to call the service layer!
 
 ## Regenerating Code (When You Update openapi.yaml)
 
-When you make changes to `openapi.yaml`:
+When you make changes to `../openapi.yaml` (in the root directory):
 
 ```bash
+cd server
 ./generate.sh
 ```
 
@@ -145,9 +155,9 @@ This will:
 ## Development Workflow
 
 ```
-1. Update openapi.yaml with API changes
+1. Update ../openapi.yaml (in root) with API changes
    ↓
-2. Run ./generate.sh
+2. Run cd server && ./generate.sh
    ↓
 3. Update generated/models.py (auto)
    ↓
@@ -155,7 +165,7 @@ This will:
    ↓
 5. Routes automatically call service layer
    ↓
-6. Test with docker-compose up
+6. Test with docker-compose up (from root directory)
 ```
 
 ## Testing Endpoints
