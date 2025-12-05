@@ -6,8 +6,8 @@ WORKDIR /app
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
 
 # Copy dependency files first (for better Docker layer caching)
-COPY server/config/pyproject.toml ./
-COPY server/config/uv.lock* ./
+COPY server/config/pyproject.toml ./pyproject.toml
+COPY server/config/uv.lock* ./uv.lock
 
 # Install dependencies (this layer will be cached unless dependencies change)
 RUN uv pip install --system .

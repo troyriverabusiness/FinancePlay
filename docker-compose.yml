@@ -8,7 +8,23 @@ services:
       - "8000:8000"
     environment:
       - PYTHONUNBUFFERED=1
+      - PYTHONPATH=/app
+      - ALPHA_VANTAGE_API_KEY=${ALPHA_VANTAGE_API_KEY}
     # Keep container running
     stdin_open: true
     tty: true
 
+  cron:
+    build:
+      context: .
+      dockerfile: server/Dockerfile
+    container_name: financeplay-cron
+    depends_on:
+      - server
+    environment:
+      - PYTHONUNBUFFERED=1
+      - PYTHONPATH=/app
+      - ALPHA_VANTAGE_API_KEY=${ALPHA_VANTAGE_API_KEY}
+    # This overrides the CMD in the Dockerfile (the more you know...)
+    command: python -u cron/fetch_data.py
+    restart: on-failure
