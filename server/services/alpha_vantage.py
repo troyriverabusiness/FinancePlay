@@ -5,7 +5,7 @@ Service for fetching data from the Alpha Vantage API.
 import os
 import requests
 from dotenv import load_dotenv
-
+from generated.models import Type
 from data.instruments import INSTRUMENTS
 from data.timeseries_cache import TIMESERIES_CACHE
 
@@ -36,7 +36,8 @@ def refresh_timeseries_cache():
     """
     print("Refreshing timeseries cache...")
     for instrument in INSTRUMENTS:
-        if instrument.get("type") == "stock":
+        print(f"Instrument: {instrument}")
+        if instrument["type"] == Type.stock:
             symbol = instrument["symbol"]
             try:
                 print(f"Fetching data for {symbol}...")
