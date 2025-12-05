@@ -6,10 +6,34 @@ converted to Pydantic models (InstrumentDetail) in the service layer.
 """
 
 import os
+from typing import Optional
+
+from dotenv import load_dotenv
 
 from generated.models import Type
 
-token = os.getenv("LOGO_DEV_API_KEY")
+# Load environment variables from .env file (for local development)
+# In Docker, environment variables are passed directly via docker-compose
+load_dotenv()
+
+
+def build_logo_url(symbol: str, is_crypto: bool = False) -> Optional[str]:
+    """
+    Build a logo URL for an instrument.
+    
+    Args:
+        symbol: The instrument symbol (e.g., "AAPL", "BTC")
+        is_crypto: Whether this is a cryptocurrency (uses /crypto/ endpoint)
+    
+    Returns:
+        The logo URL if token is available, None otherwise
+    """
+    token = os.getenv("LOGO_DEV_API_KEY")
+    if token is None:
+        return None
+    
+    endpoint = "crypto" if is_crypto else "ticker"
+    return f"https://img.logo.dev/{endpoint}/{symbol}?token={token}"
 
 # All instruments available in the FinancePlay API
 # Each entry contains full InstrumentDetail fields
@@ -27,7 +51,7 @@ INSTRUMENTS: list[dict] = [
         "description": None,
         "sector": "Technology",
         "marketCap": None,
-        "logoUrl": f"https://img.logo.dev/ticker/AAPL?token={token}",
+        "logoUrl": None,  # Will be set by post-processing
     },
     {
         "id": "MSFT",
@@ -39,7 +63,7 @@ INSTRUMENTS: list[dict] = [
         "description": None,
         "sector": "Technology",
         "marketCap": None,
-        "logoUrl": f"https://img.logo.dev/ticker/MSFT?token={token}",
+        "logoUrl": None,  # Will be set by post-processing
     },
     {
         "id": "GOOGL",
@@ -51,7 +75,7 @@ INSTRUMENTS: list[dict] = [
         "description": None,
         "sector": "Technology",
         "marketCap": None,
-        "logoUrl": f"https://img.logo.dev/ticker/GOOGL?token={token}",
+        "logoUrl": None,  # Will be set by post-processing
     },
     {
         "id": "AMZN",
@@ -63,7 +87,7 @@ INSTRUMENTS: list[dict] = [
         "description": None,
         "sector": "Consumer Cyclical",
         "marketCap": None,
-        "logoUrl": f"https://img.logo.dev/ticker/AMZN?token={token}",
+        "logoUrl": None,  # Will be set by post-processing
     },
     {
         "id": "NVDA",
@@ -75,7 +99,7 @@ INSTRUMENTS: list[dict] = [
         "description": None,
         "sector": "Technology",
         "marketCap": None,
-        "logoUrl": f"https://img.logo.dev/ticker/NVDA?token={token}",
+        "logoUrl": None,  # Will be set by post-processing
     },
     {
         "id": "META",
@@ -87,7 +111,7 @@ INSTRUMENTS: list[dict] = [
         "description": None,
         "sector": "Technology",
         "marketCap": None,
-        "logoUrl": f"https://img.logo.dev/ticker/META?token={token}",
+        "logoUrl": None,  # Will be set by post-processing
     },
     {
         "id": "TSLA",
@@ -99,7 +123,7 @@ INSTRUMENTS: list[dict] = [
         "description": None,
         "sector": "Consumer Cyclical",
         "marketCap": None,
-        "logoUrl": f"https://img.logo.dev/ticker/TSLA?token={token}",
+        "logoUrl": None,  # Will be set by post-processing
     },
     {
         "id": "BRK.B",
@@ -111,7 +135,7 @@ INSTRUMENTS: list[dict] = [
         "description": None,
         "sector": "Financial Services",
         "marketCap": None,
-        "logoUrl": f"https://img.logo.dev/ticker/BRK.B?token={token}",
+        "logoUrl": None,  # Will be set by post-processing
     },
     {
         "id": "UNH",
@@ -123,7 +147,7 @@ INSTRUMENTS: list[dict] = [
         "description": None,
         "sector": "Healthcare",
         "marketCap": None,
-        "logoUrl": f"https://img.logo.dev/ticker/UNH?token={token}",
+        "logoUrl": None,  # Will be set by post-processing
     },
     {
         "id": "JNJ",
@@ -135,7 +159,7 @@ INSTRUMENTS: list[dict] = [
         "description": None,
         "sector": "Healthcare",
         "marketCap": None,
-        "logoUrl": f"https://img.logo.dev/ticker/JNJ?token={token}",
+        "logoUrl": None,  # Will be set by post-processing
     },
     {
         "id": "V",
@@ -147,7 +171,7 @@ INSTRUMENTS: list[dict] = [
         "description": None,
         "sector": "Financial Services",
         "marketCap": None,
-        "logoUrl": f"https://img.logo.dev/ticker/V?token={token}",
+        "logoUrl": None,  # Will be set by post-processing
     },
     {
         "id": "XOM",
@@ -159,7 +183,7 @@ INSTRUMENTS: list[dict] = [
         "description": None,
         "sector": "Energy",
         "marketCap": None,
-        "logoUrl": f"https://img.logo.dev/ticker/XOM?token={token}",
+        "logoUrl": None,  # Will be set by post-processing
     },
     {
         "id": "JPM",
@@ -171,7 +195,7 @@ INSTRUMENTS: list[dict] = [
         "description": None,
         "sector": "Financial Services",
         "marketCap": None,
-        "logoUrl": f"https://img.logo.dev/ticker/JPM?token={token}",
+        "logoUrl": None,  # Will be set by post-processing
     },
     {
         "id": "PG",
@@ -183,7 +207,7 @@ INSTRUMENTS: list[dict] = [
         "description": None,
         "sector": "Consumer Defensive",
         "marketCap": None,
-        "logoUrl": f"https://img.logo.dev/ticker/PG?token={token}",
+        "logoUrl": None,  # Will be set by post-processing
     },
     {
         "id": "MA",
@@ -195,7 +219,7 @@ INSTRUMENTS: list[dict] = [
         "description": None,
         "sector": "Financial Services",
         "marketCap": None,
-        "logoUrl": f"https://img.logo.dev/ticker/MA?token={token}",
+        "logoUrl": None,  # Will be set by post-processing
     },
     {
         "id": "HD",
@@ -207,7 +231,7 @@ INSTRUMENTS: list[dict] = [
         "description": None,
         "sector": "Consumer Cyclical",
         "marketCap": None,
-        "logoUrl": f"https://img.logo.dev/ticker/HD?token={token}",
+        "logoUrl": None,  # Will be set by post-processing
     },
     {
         "id": "CVX",
@@ -219,7 +243,7 @@ INSTRUMENTS: list[dict] = [
         "description": None,
         "sector": "Energy",
         "marketCap": None,
-        "logoUrl": f"https://img.logo.dev/ticker/CVX?token={token}",
+        "logoUrl": None,  # Will be set by post-processing
     },
     {
         "id": "MRK",
@@ -231,7 +255,7 @@ INSTRUMENTS: list[dict] = [
         "description": None,
         "sector": "Healthcare",
         "marketCap": None,
-        "logoUrl": f"https://img.logo.dev/ticker/MRK?token={token}",
+        "logoUrl": None,  # Will be set by post-processing
     },
     {
         "id": "ABBV",
@@ -243,7 +267,7 @@ INSTRUMENTS: list[dict] = [
         "description": None,
         "sector": "Healthcare",
         "marketCap": None,
-        "logoUrl": f"https://img.logo.dev/ticker/ABBV?token={token}",
+        "logoUrl": None,  # Will be set by post-processing
     },
     {
         "id": "LLY",
@@ -255,7 +279,7 @@ INSTRUMENTS: list[dict] = [
         "description": None,
         "sector": "Healthcare",
         "marketCap": None,
-        "logoUrl": f"https://img.logo.dev/ticker/LLY?token={token}",
+        "logoUrl": None,  # Will be set by post-processing
     },
     {
         "id": "PEP",
@@ -267,7 +291,7 @@ INSTRUMENTS: list[dict] = [
         "description": None,
         "sector": "Consumer Defensive",
         "marketCap": None,
-        "logoUrl": f"https://img.logo.dev/ticker/PEP?token={token}",
+        "logoUrl": None,  # Will be set by post-processing
     },
     {
         "id": "KO",
@@ -279,7 +303,7 @@ INSTRUMENTS: list[dict] = [
         "description": None,
         "sector": "Consumer Defensive",
         "marketCap": None,
-        "logoUrl": f"https://img.logo.dev/ticker/KO?token={token}",
+        "logoUrl": None,  # Will be set by post-processing
     },
     {
         "id": "COST",
@@ -291,7 +315,7 @@ INSTRUMENTS: list[dict] = [
         "description": None,
         "sector": "Consumer Defensive",
         "marketCap": None,
-        "logoUrl": f"https://img.logo.dev/ticker/COST?token={token}",
+        "logoUrl": None,  # Will be set by post-processing
     },
     {
         "id": "AVGO",
@@ -303,7 +327,7 @@ INSTRUMENTS: list[dict] = [
         "description": None,
         "sector": "Technology",
         "marketCap": None,
-        "logoUrl": f"https://img.logo.dev/ticker/AVGO?token={token}",
+        "logoUrl": None,  # Will be set by post-processing
     },
     {
         "id": "WMT",
@@ -315,7 +339,7 @@ INSTRUMENTS: list[dict] = [
         "description": None,
         "sector": "Consumer Defensive",
         "marketCap": None,
-        "logoUrl": f"https://img.logo.dev/ticker/WMT?token={token}",
+        "logoUrl": None,  # Will be set by post-processing
     },
     {
         "id": "MCD",
@@ -327,7 +351,7 @@ INSTRUMENTS: list[dict] = [
         "description": None,
         "sector": "Consumer Cyclical",
         "marketCap": None,
-        "logoUrl": f"https://img.logo.dev/ticker/MCD?token={token}",
+        "logoUrl": None,  # Will be set by post-processing
     },
     {
         "id": "CSCO",
@@ -339,7 +363,7 @@ INSTRUMENTS: list[dict] = [
         "description": None,
         "sector": "Technology",
         "marketCap": None,
-        "logoUrl": f"https://img.logo.dev/ticker/CSCO?token={token}",
+        "logoUrl": None,  # Will be set by post-processing
     },
     {
         "id": "ACN",
@@ -351,7 +375,7 @@ INSTRUMENTS: list[dict] = [
         "description": None,
         "sector": "Technology",
         "marketCap": None,
-        "logoUrl": f"https://img.logo.dev/ticker/ACN?token={token}",
+        "logoUrl": None,  # Will be set by post-processing
     },
     {
         "id": "TMO",
@@ -363,7 +387,7 @@ INSTRUMENTS: list[dict] = [
         "description": None,
         "sector": "Healthcare",
         "marketCap": None,
-        "logoUrl": f"https://img.logo.dev/ticker/TMO?token={token}",
+        "logoUrl": None,  # Will be set by post-processing
     },
     {
         "id": "ABT",
@@ -375,7 +399,7 @@ INSTRUMENTS: list[dict] = [
         "description": None,
         "sector": "Healthcare",
         "marketCap": None,
-        "logoUrl": f"https://img.logo.dev/ticker/ABT?token={token}",
+        "logoUrl": None,  # Will be set by post-processing
     },
     {
         "id": "DHR",
@@ -387,7 +411,7 @@ INSTRUMENTS: list[dict] = [
         "description": None,
         "sector": "Healthcare",
         "marketCap": None,
-        "logoUrl": f"https://img.logo.dev/ticker/DHR?token={token}",
+        "logoUrl": None,  # Will be set by post-processing
     },
     {
         "id": "VZ",
@@ -399,7 +423,7 @@ INSTRUMENTS: list[dict] = [
         "description": None,
         "sector": "Communication Services",
         "marketCap": None,
-        "logoUrl": f"https://img.logo.dev/ticker/VZ?token={token}",
+        "logoUrl": None,  # Will be set by post-processing
     },
     {
         "id": "ADBE",
@@ -411,7 +435,7 @@ INSTRUMENTS: list[dict] = [
         "description": None,
         "sector": "Technology",
         "marketCap": None,
-        "logoUrl": f"https://img.logo.dev/ticker/ADBE?token={token}",
+        "logoUrl": None,  # Will be set by post-processing
     },
     {
         "id": "CRM",
@@ -423,7 +447,7 @@ INSTRUMENTS: list[dict] = [
         "description": None,
         "sector": "Technology",
         "marketCap": None,
-        "logoUrl": f"https://img.logo.dev/ticker/CRM?token={token}",
+        "logoUrl": None,  # Will be set by post-processing
     },
     {
         "id": "NKE",
@@ -435,7 +459,7 @@ INSTRUMENTS: list[dict] = [
         "description": None,
         "sector": "Consumer Cyclical",
         "marketCap": None,
-        "logoUrl": f"https://img.logo.dev/ticker/NKE?token={token}",
+        "logoUrl": None,  # Will be set by post-processing
     },
     {
         "id": "CMCSA",
@@ -447,7 +471,7 @@ INSTRUMENTS: list[dict] = [
         "description": None,
         "sector": "Communication Services",
         "marketCap": None,
-        "logoUrl": f"https://img.logo.dev/ticker/CMCSA?token={token}",
+        "logoUrl": None,  # Will be set by post-processing
     },
     {
         "id": "NEE",
@@ -459,7 +483,7 @@ INSTRUMENTS: list[dict] = [
         "description": None,
         "sector": "Utilities",
         "marketCap": None,
-        "logoUrl": f"https://img.logo.dev/ticker/NEE?token={token}",
+        "logoUrl": None,  # Will be set by post-processing
     },
     {
         "id": "INTC",
@@ -471,7 +495,7 @@ INSTRUMENTS: list[dict] = [
         "description": None,
         "sector": "Technology",
         "marketCap": None,
-        "logoUrl": f"https://img.logo.dev/ticker/INTC?token={token}",
+        "logoUrl": None,  # Will be set by post-processing
     },
     {
         "id": "PM",
@@ -483,7 +507,7 @@ INSTRUMENTS: list[dict] = [
         "description": None,
         "sector": "Consumer Defensive",
         "marketCap": None,
-        "logoUrl": f"https://img.logo.dev/ticker/PM?token={token}",
+        "logoUrl": None,  # Will be set by post-processing
     },
     {
         "id": "TXN",
@@ -495,7 +519,7 @@ INSTRUMENTS: list[dict] = [
         "description": None,
         "sector": "Technology",
         "marketCap": None,
-        "logoUrl": f"https://img.logo.dev/ticker/TXN?token={token}",
+        "logoUrl": None,  # Will be set by post-processing
     },
     {
         "id": "RTX",
@@ -507,7 +531,7 @@ INSTRUMENTS: list[dict] = [
         "description": None,
         "sector": "Industrials",
         "marketCap": None,
-        "logoUrl": f"https://img.logo.dev/ticker/RTX?token={token}",
+        "logoUrl": None,  # Will be set by post-processing
     },
     {
         "id": "HON",
@@ -519,7 +543,7 @@ INSTRUMENTS: list[dict] = [
         "description": None,
         "sector": "Industrials",
         "marketCap": None,
-        "logoUrl": f"https://img.logo.dev/ticker/HON?token={token}",
+        "logoUrl": None,  # Will be set by post-processing
     },
     {
         "id": "QCOM",
@@ -531,7 +555,7 @@ INSTRUMENTS: list[dict] = [
         "description": None,
         "sector": "Technology",
         "marketCap": None,
-        "logoUrl": f"https://img.logo.dev/ticker/QCOM?token={token}",
+        "logoUrl": None,  # Will be set by post-processing
     },
     {
         "id": "UPS",
@@ -543,7 +567,7 @@ INSTRUMENTS: list[dict] = [
         "description": None,
         "sector": "Industrials",
         "marketCap": None,
-        "logoUrl": f"https://img.logo.dev/ticker/UPS?token={token}",
+        "logoUrl": None,  # Will be set by post-processing
     },
     {
         "id": "LOW",
@@ -555,7 +579,7 @@ INSTRUMENTS: list[dict] = [
         "description": None,
         "sector": "Consumer Cyclical",
         "marketCap": None,
-        "logoUrl": f"https://img.logo.dev/ticker/LOW?token={token}",
+        "logoUrl": None,  # Will be set by post-processing
     },
     {
         "id": "IBM",
@@ -567,7 +591,7 @@ INSTRUMENTS: list[dict] = [
         "description": None,
         "sector": "Technology",
         "marketCap": None,
-        "logoUrl": f"https://img.logo.dev/ticker/IBM?token={token}",
+        "logoUrl": None,  # Will be set by post-processing
     },
     {
         "id": "CAT",
@@ -579,7 +603,7 @@ INSTRUMENTS: list[dict] = [
         "description": None,
         "sector": "Industrials",
         "marketCap": None,
-        "logoUrl": f"https://img.logo.dev/ticker/CAT?token={token}",
+        "logoUrl": None,  # Will be set by post-processing
     },
     {
         "id": "AMGN",
@@ -591,7 +615,7 @@ INSTRUMENTS: list[dict] = [
         "description": None,
         "sector": "Healthcare",
         "marketCap": None,
-        "logoUrl": f"https://img.logo.dev/ticker/AMGN?token={token}",
+        "logoUrl": None,  # Will be set by post-processing
     },
     {
         "id": "BA",
@@ -603,7 +627,7 @@ INSTRUMENTS: list[dict] = [
         "description": None,
         "sector": "Industrials",
         "marketCap": None,
-        "logoUrl": f"https://img.logo.dev/ticker/BA?token={token}",
+        "logoUrl": None,  # Will be set by post-processing
     },
     {
         "id": "GE",
@@ -615,7 +639,7 @@ INSTRUMENTS: list[dict] = [
         "description": None,
         "sector": "Industrials",
         "marketCap": None,
-        "logoUrl": f"https://img.logo.dev/ticker/GE?token={token}",
+        "logoUrl": None,  # Will be set by post-processing
     },
     # =========================================================================
     # CRYPTO (10) - Largest cryptocurrencies by market cap
@@ -630,7 +654,7 @@ INSTRUMENTS: list[dict] = [
         "description": None,
         "sector": None,
         "marketCap": None,
-        "logoUrl": f"https://img.logo.dev/crypto/BTC?token={token}",
+        "logoUrl": None,  # Will be set by post-processing
     },
     {
         "id": "ETH",
@@ -642,7 +666,7 @@ INSTRUMENTS: list[dict] = [
         "description": None,
         "sector": None,
         "marketCap": None,
-        "logoUrl": f"https://img.logo.dev/crypto/ETH?token={token}",
+        "logoUrl": None,  # Will be set by post-processing
     },
     {
         "id": "BNB",
@@ -654,7 +678,7 @@ INSTRUMENTS: list[dict] = [
         "description": None,
         "sector": None,
         "marketCap": None,
-        "logoUrl": f"https://img.logo.dev/crypto/BNB?token={token}",
+        "logoUrl": None,  # Will be set by post-processing
     },
     {
         "id": "XRP",
@@ -666,7 +690,7 @@ INSTRUMENTS: list[dict] = [
         "description": None,
         "sector": None,
         "marketCap": None,
-        "logoUrl": f"https://img.logo.dev/crypto/XRP?token={token}",
+        "logoUrl": None,  # Will be set by post-processing
     },
     {
         "id": "ADA",
@@ -678,7 +702,7 @@ INSTRUMENTS: list[dict] = [
         "description": None,
         "sector": None,
         "marketCap": None,
-        "logoUrl": f"https://img.logo.dev/crypto/ADA?token={token}",
+        "logoUrl": None,  # Will be set by post-processing
     },
     {
         "id": "SOL",
@@ -690,7 +714,7 @@ INSTRUMENTS: list[dict] = [
         "description": None,
         "sector": None,
         "marketCap": None,
-        "logoUrl": f"https://img.logo.dev/crypto/SOL?token={token}",
+        "logoUrl": None,  # Will be set by post-processing
     },
     {
         "id": "DOGE",
@@ -702,7 +726,7 @@ INSTRUMENTS: list[dict] = [
         "description": None,
         "sector": None,
         "marketCap": None,
-        "logoUrl": f"https://img.logo.dev/crypto/DOGE?token={token}",
+        "logoUrl": None,  # Will be set by post-processing
     },
     {
         "id": "DOT",
@@ -714,7 +738,7 @@ INSTRUMENTS: list[dict] = [
         "description": None,
         "sector": None,
         "marketCap": None,
-        "logoUrl": f"https://img.logo.dev/crypto/DOT?token={token}",
+        "logoUrl": None,  # Will be set by post-processing
     },
     {
         "id": "MATIC",
@@ -726,7 +750,7 @@ INSTRUMENTS: list[dict] = [
         "description": None,
         "sector": None,
         "marketCap": None,
-        "logoUrl": f"https://img.logo.dev/crypto/MATIC?token={token}",
+        "logoUrl": None,  # Will be set by post-processing
     },
     {
         "id": "LTC",
@@ -738,7 +762,7 @@ INSTRUMENTS: list[dict] = [
         "description": None,
         "sector": None,
         "marketCap": None,
-        "logoUrl": f"https://img.logo.dev/crypto/LTC?token={token}",
+        "logoUrl": None,  # Will be set by post-processing
     },
     # =========================================================================
     # COMMODITIES (2) - Gold and Silver
@@ -753,7 +777,7 @@ INSTRUMENTS: list[dict] = [
         "description": None,
         "sector": "Precious Metals",
         "marketCap": None,
-        "logoUrl": f"https://img.logo.dev/ticker/GOLD?token={token}",
+        "logoUrl": None,  # Will be set by post-processing
     },
     {
         "id": "SILVER",
@@ -765,9 +789,14 @@ INSTRUMENTS: list[dict] = [
         "description": None,
         "sector": "Precious Metals",
         "marketCap": None,
-        "logoUrl": f"https://img.logo.dev/ticker/SILVER?token={token}",
+        "logoUrl": None,  # Will be set by post-processing
     },
 ]
+
+# Update logoUrl values using the helper function
+for inst in INSTRUMENTS:
+    is_crypto = inst["type"] == Type.crypto
+    inst["logoUrl"] = build_logo_url(inst["id"], is_crypto=is_crypto)
 
 # Create a lookup dictionary for O(1) access by ID
 INSTRUMENTS_BY_ID: dict[str, dict] = {inst["id"]: inst for inst in INSTRUMENTS}
